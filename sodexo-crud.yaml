@@ -1,0 +1,100 @@
+openapi: 3.0.1
+info:
+  title: Sodexo News API
+  description: >-
+    Entregable para entrevista Sodexo, Mapeo de aplicacion de noticias sobre el
+    espacio, comprende algunas acciones CRUD y consumo de API externa, la cual
+    se guarda en nuestra propia API.
+  version: '1.0'
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /api/noticias:
+    get:
+      tags:
+        - news-controller
+      operationId: getFavorites
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Noticia'
+    post:
+      tags:
+        - news-controller
+      operationId: agregarFavorito
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Noticia'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Noticia'
+  /api/noticias/buscar:
+    get:
+      tags:
+        - news-controller
+      operationId: buscarNoticiasPorTitulo
+      parameters:
+        - name: title
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Noticia'
+  /api/noticias/{id}:
+    delete:
+      tags:
+        - news-controller
+      operationId: eliminarFavorito
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+components:
+  schemas:
+    Noticia:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        title:
+          type: string
+        summary:
+          type: string
+        image_url:
+          type: string
+        url:
+          type: string
+        published_at:
+          type: string
